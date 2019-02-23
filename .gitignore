@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+
+obj/
+compile_commands.json
+.localvimrc
