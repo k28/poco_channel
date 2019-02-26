@@ -4,6 +4,8 @@
 #include <Poco/Notification.h>
 #include "request.h"
 
+#include <iostream>
+
 namespace htn {
 
 Worker::Worker(Poco::NotificationQueue& queue) : queue_(queue) {
@@ -14,11 +16,16 @@ Worker::~Worker() {
 }
 
 void Worker::run() {
-    while(cancel_) {
+    while(cancel_ == false) {
         Poco::AutoPtr<Poco::Notification> p_notification(queue_.waitDequeueNotification());
         if (p_notification) {
             Request *p_request = dynamic_cast<Request *>(p_notification.get());
-            p_request->Execute();
+            if (p_request) {
+                p_request->Execute();
+            }
+        } else {
+            // return NULL exit the thread.
+            break;
         }
     }
 }

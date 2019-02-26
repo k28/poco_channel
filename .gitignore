@@ -34,3 +34,4 @@
 obj/
 compile_commands.json
 .localvimrc
+channel_sample

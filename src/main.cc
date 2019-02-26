@@ -15,7 +15,9 @@ class PrintRequest : public Request {
 
     virtual void Execute() {
         int val = Poco::Thread::currentTid();
-        std::cout << "Execure [" << std::to_string(val) << "]" << std::to_string(index_) << std::endl;
+        {
+            std::cout << "Execute [" << std::to_string(val) << "]" << std::to_string(index_) << std::endl;
+        }
         Poco::Thread::sleep(100);
     };
 
@@ -25,15 +27,15 @@ class PrintRequest : public Request {
 int main(int argc, char const* argv[])
 {
     std::cout << "hello world" << std::endl;
+
     {
         Channel channel(3);
         for (int i = 0; i < 100; i++) {
             channel.PutRequest(new PrintRequest(i));
         }
-    }
 
-    // wait a while...
-    Poco::Thread::sleep(10 * 1000);
+        Poco::Thread::sleep(10 * 1000);
+    }
 
     return 0;
 }
